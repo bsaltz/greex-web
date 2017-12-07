@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    >&2 echo 'error: missing file parameter'
+    exit 1
+fi
+
+tar --exclude="*.iml" -zcf "$1" "`dirname "$BASH_SOURCE"`/html"

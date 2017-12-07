@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Greex - Regular Expression Match Generation</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Greex</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li><a href="https://github.com/bsaltz/greex">GitHub</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Downloads <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/maven.html">Maven Central</a></li>
+                        <li><a href="/libs.html">Library Archives</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li role="separator" class="divider"></li>
+                <li><a href="/api.html">API Documentation</a></li>
+                <li><a href="/tests.html">Unit Test Data</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <h1>Greex Regular Expression Match Generator</h1>
+    <p>
+        Greex is a Java library that can be used to generate matches for regular expressions. It
+        supports both random generation as well as complete generation. This can be used for
+        creating test data, generating random tokens, or creating unit test cases.
+    </p>
+    <h2>Getting Started</h2>
+    <p>
+        To get started, you can add Greex to your pom.xml or build.gradle, or you can download the
+        JAR files manually from the <a href="/libs.html">Library Archives</a>.
+    </p>
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <strong>Note:</strong> If you download the JAR file and add it to your classpath
+            manually, you'll also need to download the
+            <a href="http://www.brics.dk/automaton/">dk.brics.automaton library</a> and add it to
+            your classpath as well.
+        </div>
+    </div>
+    <h3>Maven</h3>
+    <p>
+        Add this to your pom.xml to add Greex as a dependency:
+    </p>
+    <pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;com.navigamez&lt;/groupId&gt;
+    &lt;artifactId&gt;greex&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+    <h3>Gradle</h3>
+    <p>
+        Add this to your build.gradle to add Greex as a dependency:
+    </p>
+    <pre>
+compile 'com.navigamez:greex:1.0'
+</pre>
+    <h3>Using the Generator</h3>
+    <p>
+        The <code>GreexGenerator</code> class is the entry point into match generation.
+    </p>
+    <pre>
+GreexGenerator generator = new GreexGenerator("(white|black)|((light|dark) )?(red|green|blue|gray)");
+String match = generator.generateRandom();
+System.out.println(match); // e.g. "dark red"
+</pre>
+    <p>
+        This example uses <code>generateRandom()</code> to create a random match. You can also
+        generate all possible matches with <code>generateAll()</code>, but this shouldn't be used
+        for non-finite regular expressions unless a max length is provided.
+    </p>
+    <pre>
+GreexGenerator generator = new GreexGenerator("(white|black)|((light|dark) )?(red|green|blue|gray)");
+List&lt;String&gt; matches = generator.generateAll();
+System.out.println(matches.size()); // "14"
+</pre>
+    <p>
+        As documented in the <a href="/api.html">API docs</a>, these methods can all throw a
+        <code>StackOverflowError</code> if the code recurses too deeply. In addition, if the maximum
+        length passed in to <code>generateAll(int)</code> is too large, you may also get a
+        <code>OutOfMemoryError</code>.
+    </p>
+    <h2>Further Reading</h2>
+    <p>
+        The <a href="/api.html">API docs</a> are a good starting point for reading up on the various
+        overloads available for the generate methods as well as the caveats around thread safety.
+    </p>
+</div>
+</body>
